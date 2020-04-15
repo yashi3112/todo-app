@@ -7,4 +7,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'to-do';
+  note='';
+  todoList:string[] = [];
+
+  addNote()
+  {
+      this.todoList.push(this.note);
+      this.note='';
+  }
+  onComplete(index)
+  {
+    this.todoList.splice(index,1);
+  }
 }
