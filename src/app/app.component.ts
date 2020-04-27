@@ -1,37 +1,47 @@
 import { Component, OnInit } from '@angular/core';
+import { NotesService } from './notes.service';
+import { splitAtColon } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'to-do';
-  note='';
-  todoList:string[] = [];
+  note = '';
+  todoList: string[] = [];
 
-  ngOnInit()
-  {
+  constructor(private notesService: NotesService) {
+
+  }
+  ngOnInit() {
     this.todoList = JSON.parse(localStorage.getItem('notes')) || [];
+    this.notesService.getNotes().subscribe((response: any) => {
+
+      this.todoList = response.data.split(",");
+
+    });
   }
 
-  addNote()
-  {
-    if(this.note)
-    {
+  addNote() {
+    if (this.note) {
       this.todoList.push(this.note);
       this.updateLocal();
-      this.note='';
+      this.note = '';
     }
-      
+
   }
-  onComplete(index)
-  {
-    this.todoList.splice(index,1);
+  onComplete(index) {
+    this.todoList.splice(index, 1);
     this.updateLocal();
   }
-  updateLocal()
-  {
-    localStorage.setItem('notes',JSON.stringify(this.todoList));
+  updateLocal() {
+    localStorage.setItem('notes', JSON.stringify(this.todoList));
+    const noteList:string = this.todoList.join(',');
+    console.log("string converted ",noteList);
+    this.notesService.updateNotes(noteList).subscribe( response => {
+      console.log();
+    });
   }
 }

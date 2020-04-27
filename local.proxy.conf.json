@@ -1,0 +1,15 @@
+{
+    "/todo/": {
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "target":"http://localhost/todoApi/todo/"
+      },
+      "/update/": {
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "target":"http://localhost/todoApi/todo/update"
+      }
+
+}
